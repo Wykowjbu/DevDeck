@@ -1,0 +1,56 @@
+<Page
+    x:Class="DevDeck.Features.Actions.ActionsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DevDeck.Features.Actions"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0" BorderThickness="0,0,1,0" BorderBrush="{ThemeResource SystemControlBackgroundListLowBrush}" Padding="16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Action library" Style="{StaticResource TitleTextBlockStyle}" FontWeight="SemiBold" Margin="0,0,0,12"/>
+
+            <StackPanel Grid.Row="1" Spacing="8" Margin="0,0,0,12">
+                <Button x:Name="NewActionBtn" HorizontalAlignment="Stretch" Style="{StaticResource AccentButtonStyle}" Click="NewActionBtn_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <SymbolIcon Symbol="Add"/>
+                        <TextBlock Text="Tạo Action mới"/>
+                    </StackPanel>
+                </Button>
+                <TextBox x:Name="SearchBox" PlaceholderText="Tìm kiếm action..." TextChanged="SearchBox_TextChanged" IsSpellCheckEnabled="False"/>
+            </StackPanel>
+
+            <ListView x:Name="ActionsListView"
+                      Grid.Row="2"
+                      DisplayMemberPath="Name"
+                      SelectionChanged="ActionsListView_SelectionChanged"/>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <TextBlock x:Name="EmptyStateText"
+                       Text="Chọn một Action ở bên trái hoặc tạo Action mới."
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
+                       Style="{StaticResource BodyTextBlockStyle}"/>
+
+            <local:ActionEditorControl x:Name="EditorControl"
+                                       Visibility="Collapsed"
+                                       Saved="EditorControl_Saved"
+                                       Deleted="EditorControl_Deleted"/>
+        </Grid>
+    </Grid>
+</Page>

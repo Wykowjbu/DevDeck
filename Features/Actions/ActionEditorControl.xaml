@@ -1,0 +1,143 @@
+<UserControl
+    x:Class="DevDeck.Features.Actions.ActionEditorControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Padding="24">
+        <ScrollViewer x:Name="EditorScrollViewer"
+                      HorizontalScrollMode="Disabled"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollMode="Auto"
+                      VerticalScrollBarVisibility="Auto">
+        <StackPanel x:Name="EditorContent" Spacing="24" MaxWidth="1120" HorizontalAlignment="Left">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Spacing="4">
+                    <TextBlock x:Name="EditorTitleText" Text="Action" Style="{StaticResource TitleLargeTextBlockStyle}" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="UnsavedText" Text="Có thay đổi chưa lưu" Visibility="Collapsed" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" Style="{StaticResource CaptionTextBlockStyle}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <Button x:Name="SaveButton" Click="SaveButton_Click" Style="{StaticResource AccentButtonStyle}" IsEnabled="False">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <SymbolIcon Symbol="Save"/>
+                            <TextBlock Text="Save"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="DiscardButton" Click="DiscardButton_Click" IsEnabled="False">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <SymbolIcon Symbol="Undo"/>
+                            <TextBlock Text="Discard"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="DeleteButton" Click="DeleteActionBtn_Click">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <SymbolIcon Symbol="Delete"/>
+                            <TextBlock Text="Delete"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <Border BorderBrush="{ThemeResource SystemControlBackgroundListLowBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{ThemeResource OverlayCornerRadius}"
+                    Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+                <StackPanel Spacing="16" Padding="16">
+                    <TextBlock Text="General" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+                    <TextBox x:Name="ActionNameInput" Header="Tên Action" IsSpellCheckEnabled="False" TextChanged="EditorFieldChanged"/>
+                    <TextBox x:Name="GroupNameInput" Header="Nhóm" PlaceholderText="Optional" IsSpellCheckEnabled="False" TextChanged="EditorFieldChanged"/>
+                    <StackPanel Orientation="Horizontal" Spacing="24">
+                        <CheckBox x:Name="RequireConfirmInput" Content="Xác nhận trước khi chạy" Checked="EditorCheckBoxChanged" Unchecked="EditorCheckBoxChanged"/>
+                        <CheckBox x:Name="StopOnFailureInput" Content="Dừng nếu lỗi" Checked="EditorCheckBoxChanged" Unchecked="EditorCheckBoxChanged"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border BorderBrush="{ThemeResource SystemControlBackgroundListLowBrush}"
+                    BorderThickness="1"
+                    CornerRadius="{ThemeResource OverlayCornerRadius}"
+                    Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+                <Grid Padding="16" RowSpacing="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Steps" Style="{StaticResource BodyStrongTextBlockStyle}" VerticalAlignment="Center"/>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                            <Button Click="AddShellStep_Click" Content="Thêm Shell"/>
+                            <Button Click="AddDelayStep_Click" Content="Thêm Delay"/>
+                            <Button Click="RemoveStep_Click" Content="Xóa Step"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="1" ColumnSpacing="16" MinHeight="360">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <ListView x:Name="StepsListView"
+                                  Grid.Column="0"
+                                  MinHeight="320"
+                                  MaxHeight="420"
+                                  SelectionChanged="StepsListView_SelectionChanged"/>
+
+                        <Border Grid.Column="1"
+                                MinHeight="320"
+                                BorderBrush="{ThemeResource SystemControlBackgroundListLowBrush}"
+                                BorderThickness="1"
+                                CornerRadius="{ThemeResource ControlCornerRadius}"
+                                Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+                                Padding="16">
+                            <Grid>
+                                <TextBlock x:Name="NoStepSelectedText"
+                                           Text="Chọn một step để chỉnh sửa."
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
+                                           Style="{StaticResource BodyTextBlockStyle}"/>
+
+                                <StackPanel x:Name="StepDetailPanel" Spacing="12" HorizontalAlignment="Stretch" Visibility="Collapsed">
+                                    <TextBlock x:Name="StepTypeText" Text="Step" Style="{StaticResource BodyStrongTextBlockStyle}"/>
+
+                                    <StackPanel x:Name="ShellStepPanel" Spacing="12" HorizontalAlignment="Stretch">
+                                        <TextBox x:Name="CommandTextInput" Header="Lệnh Command" AcceptsReturn="True" Height="120" TextWrapping="Wrap" IsSpellCheckEnabled="False" TextChanged="CommandTextInput_TextChanged"/>
+                                        <ComboBox x:Name="ShellInput" Header="Shell" HorizontalAlignment="Stretch" SelectionChanged="ShellInput_SelectionChanged">
+                                            <ComboBoxItem Content="PowerShell 7"/>
+                                            <ComboBoxItem Content="Windows PowerShell"/>
+                                            <ComboBoxItem Content="Command Prompt (CMD)"/>
+                                            <ComboBoxItem Content="Git Bash"/>
+                                        </ComboBox>
+                                        <ComboBox x:Name="OutputModeInput" Header="Cách chạy" HorizontalAlignment="Stretch" SelectionChanged="OutputModeInput_SelectionChanged">
+                                            <ComboBoxItem Content="Chạy ẩn"/>
+                                            <ComboBoxItem Content="Mở terminal ngoài"/>
+                                        </ComboBox>
+                                    </StackPanel>
+
+                                    <StackPanel x:Name="DelayStepPanel" Spacing="12" HorizontalAlignment="Stretch" Visibility="Collapsed">
+                                        <NumberBox x:Name="DelayInput" Header="Thời gian chờ (ms)" HorizontalAlignment="Stretch" SpinButtonPlacementMode="Compact" Minimum="1" ValueChanged="DelayInput_ValueChanged"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
+        </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

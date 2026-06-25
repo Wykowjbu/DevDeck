@@ -1,0 +1,119 @@
+## Ignore Visual Studio temporary files, build results, and
+## user-specific files.
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+
+# Mono auto generated files
+*.pidb
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Re]leases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Log]/
+
+# Visual Studio 2015/2017 cache directory
+.vs/
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NUnit
+*.VisualState.xml
+TestResult.xml
+
+# Build Office Temp Files
+~$*
+
+# ReSharper is a .NET coding add-in
+_ReSharper*/
+*.[Re]Sharper
+*.DotSettings.user
+
+# JustCode
+.JustCode
+
+# TeamCity
+_TeamCity*
+
+# DotCover
+*.dotCover
+
+# AxoCover
+.axoCover/*
+! .axoCover/settings.json
+
+# Visual Studio code tracker
+_NCrunch_*
+.*crunch*.bin
+Ncrunch.Keyframe*.bin
+
+# NDP12-KB*
+*.ndproj
+
+# MSBuild lostguidals
+~*
+
+# Rider
+.idea/
+*.sln.iml
+
+# NuGet Packages
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+**/[Pp]ackages/*
+# except build/, which is used as an MSBuild target.
+!**/[Pp]ackages/build/
+# Uncomment if necessary:
+# !**/[Pp]ackages/buildMultiTargeting/
+# Only need if you use packages.config instead of PackageReference
+# !**/packages/repositories.config
+
+# Appx packages
+AppPackages/
+BundleArtifacts/
+Package.StoreAssociation.xml
+_pkginfo.txt
+*.appx
+*.appxbundle
+*.msix
+*.msixbundle
+
+# Backup and restore files from NuGet
+project.lock.json
+project.assets.json
+
+# Visual Studio Code
+.vscode/
+
+# Local History for Visual Studio Code
+.history/
+
+# Windows image analyses
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Log files
+*.log

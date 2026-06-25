@@ -1,0 +1,40 @@
+<ContentDialog
+    x:Class="DevDeck.Dialogs.ProjectEditorDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Cấu hình Project"
+    PrimaryButtonText="Lưu Project"
+    CloseButtonText="Hủy"
+    DefaultButton="Primary">
+
+    <StackPanel Spacing="16" Width="360" Margin="0,8,0,8">
+        <TextBox x:Name="ProjectNameInput" Header="Tên hiển thị" PlaceholderText="Nhập tên project..." IsSpellCheckEnabled="False"/>
+        
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="FolderPathInput" Header="Đường dẫn thư mục" PlaceholderText="D:\Projects\my-project" IsSpellCheckEnabled="False" Margin="0,0,8,0" Grid.Column="0"/>
+            <Button x:Name="PickFolderButton"
+                    VerticalAlignment="Bottom"
+                    MinWidth="40"
+                    MinHeight="40"
+                    Click="PickFolderButton_Click"
+                    Grid.Column="1"
+                    AutomationProperties.Name="Chọn thư mục Project"
+                    ToolTipService.ToolTip="Chọn thư mục Project">
+                <SymbolIcon Symbol="Folder"/>
+            </Button>
+        </Grid>
+
+        <ComboBox x:Name="DefaultShellInput" Header="Shell mặc định" HorizontalAlignment="Stretch" SelectedIndex="2">
+            <ComboBoxItem Content="PowerShell 7"/>
+            <ComboBoxItem Content="Windows PowerShell"/>
+            <ComboBoxItem Content="Command Prompt (CMD)"/>
+            <ComboBoxItem Content="Git Bash"/>
+        </ComboBox>
+
+        <CheckBox x:Name="IsPinnedInput" Content="Ghim lên thanh bên (Sidebar)" IsChecked="True"/>
+    </StackPanel>
+</ContentDialog>

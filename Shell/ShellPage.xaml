@@ -1,0 +1,68 @@
+<Page
+    x:Class="DevDeck.Shell.ShellPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <NavigationView x:Name="NavigationControl"
+                    IsSettingsVisible="True"
+                    PaneDisplayMode="Left"
+                    SelectionChanged="NavigationControl_SelectionChanged"
+                    IsBackButtonVisible="Collapsed">
+
+        <NavigationView.PaneHeader>
+            <Grid Padding="12,8,12,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox x:Name="WorkspaceSelector" DisplayMemberPath="Name" HorizontalAlignment="Stretch" VerticalAlignment="Center" PlaceholderText="Chọn Workspace" SelectionChanged="WorkspaceSelector_SelectionChanged" Grid.Column="0"/>
+                <Button x:Name="WorkspaceMenuButton"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Margin="4,0,0,0"
+                        MinWidth="40"
+                        MinHeight="40"
+                        VerticalAlignment="Center"
+                        Grid.Column="1"
+                        AutomationProperties.Name="Mở menu Workspace"
+                        ToolTipService.ToolTip="Workspace">
+                    <SymbolIcon Symbol="More"/>
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Tạo Workspace mới..." Click="NewWorkspace_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <SymbolIcon Symbol="Add"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Đổi tên Workspace..." Click="RenameWorkspace_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <SymbolIcon Symbol="Rename"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Xóa Workspace" Click="DeleteWorkspace_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <SymbolIcon Symbol="Delete"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
+        </NavigationView.PaneHeader>
+
+        <NavigationView.MenuItems>
+            <NavigationViewItem Content="Home" Icon="Home" x:Name="HomeMenuItem" />
+            <NavigationViewItemSeparator />
+            <NavigationViewItemHeader Content="PROJECTS" />
+            <!-- Dynamic projects items go here in future phases -->
+        </NavigationView.MenuItems>
+        <NavigationView.FooterMenuItems>
+            <NavigationViewItem Content="Actions" Icon="Library" x:Name="ActionsMenuItem" />
+        </NavigationView.FooterMenuItems>
+
+        <NavigationView.Content>
+            <Frame x:Name="ContentFrame"/>
+        </NavigationView.Content>
+    </NavigationView>
+</Page>

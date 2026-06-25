@@ -1,0 +1,123 @@
+<Page
+    x:Class="DevDeck.Features.Projects.ProjectPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:DevDeck.Models"
+    xmlns:controls="using:DevDeck.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <CollectionViewSource x:Name="GroupedActionsSource" IsSourceGrouped="True"/>
+    </Page.Resources>
+
+    <Grid Padding="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Project Header -->
+        <Grid Grid.Row="0" Margin="0,0,0,24">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Icon -->
+            <FontIcon Glyph="&#xE8B7;" FontFamily="Segoe MDL2 Assets" FontSize="40" Margin="0,0,16,0" Grid.Column="0" VerticalAlignment="Center"/>
+
+            <!-- Name and Path -->
+            <StackPanel Spacing="4" Grid.Column="1" VerticalAlignment="Center">
+                <TextBlock x:Name="ProjectNameText" Text="Tên Project" Style="{StaticResource TitleTextBlockStyle}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                <TextBlock x:Name="ProjectPathText" Text="Đường dẫn thư mục..." Style="{StaticResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" TextTrimming="CharacterEllipsis"/>
+            </StackPanel>
+
+            <!-- Actions -->
+            <StackPanel Orientation="Horizontal" Spacing="8" Grid.Column="2" VerticalAlignment="Center">
+                <Button x:Name="AddActionBtn" Click="AddActionBtn_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <SymbolIcon Symbol="Add"/>
+                        <TextBlock Text="Thêm Action..."/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="OpenFolderBtn" Click="OpenFolderBtn_Click">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <SymbolIcon Symbol="Folder"/>
+                        <TextBlock Text="Mở thư mục"/>
+                    </StackPanel>
+                </Button>
+                <Button Background="Transparent"
+                        BorderBrush="Transparent"
+                        MinWidth="40"
+                        MinHeight="40"
+                        AutomationProperties.Name="Mở menu Project"
+                        ToolTipService.ToolTip="Project">
+                    <SymbolIcon Symbol="More"/>
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Chỉnh sửa Project..." Click="EditProject_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <SymbolIcon Symbol="Edit"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Xóa Project" Click="DeleteProject_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <SymbolIcon Symbol="Delete"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- Project Content Tabs (Pivot) -->
+        <Pivot Grid.Row="1">
+            <PivotItem Header="Actions">
+                <Grid Padding="12">
+                    <GridView x:Name="ActionsGridView" 
+                              ItemsSource="{Binding Source={StaticResource GroupedActionsSource}}" 
+                              SelectionMode="None" 
+                              Padding="0,0,0,24">
+                        <GridView.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Key}" Style="{StaticResource SubtitleTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" Margin="0,12,0,8" FontWeight="SemiBold"/>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </GridView.GroupStyle>
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="models:ProjectActionEntity">
+                                <controls:ActionButtonControl ProjectAction="{Binding}" Margin="0,0,12,12"
+                                    RunClicked="ActionButtonControl_RunClicked"
+                                    StopClicked="ActionButtonControl_StopClicked"
+                                    RemoveClicked="ActionButtonControl_RemoveClicked"
+                                    CustomizeClicked="ActionButtonControl_CustomizeClicked"
+                                    ResetClicked="ActionButtonControl_ResetClicked"/>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+
+                    <TextBlock x:Name="NoActionsText" Text="Project này chưa được gán Action nào. Hãy quản lý trong tab Actions ở Sidebar để gán." 
+                               HorizontalAlignment="Center" VerticalAlignment="Center" 
+                               Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" Visibility="Collapsed"/>
+                </Grid>
+            </PivotItem>
+            
+            <PivotItem Header="Explorer">
+                <Grid Padding="12">
+                    <StackPanel Spacing="16" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="Cây thư mục (Placeholder - Phase sau)" HorizontalAlignment="Center" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"/>
+                        <Button Content="Mở trong File Explorer" Click="OpenFolderBtn_Click" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </PivotItem>
+        </Pivot>
+    </Grid>
+</Page>

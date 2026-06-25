@@ -1,4 +1,4 @@
-$msixPath = "D:\Users\huynp29052004\Projects\DevDeck\DevDeck\AppPackages\DevDeck_1.0.0.0_x64_Test\DevDeck_1.0.0.0_x64.msix"
+$msixPath = "D:\Users\huynp29052004\Projects\DevDeck\DevDeck\AppPackages\DevDeck_1.0.2.0_x64_Test\DevDeck_1.0.2.0_x64.msix"
 $signtool = "C:\Users\hantu\.nuget\packages\microsoft.windows.sdk.buildtools\10.0.28000.1839\bin\10.0.28000.0\x64\signtool.exe"
 
 Write-Host "Creating self-signed certificate for CN=hantu..." -ForegroundColor Cyan

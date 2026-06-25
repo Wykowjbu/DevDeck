@@ -117,3 +117,8 @@ $RECYCLE.BIN/
 
 # Log files
 *.log
+
+# DevDeck Release Artifacts & Private keys
+artifacts/
+Assets_Backup/
+*.pfx

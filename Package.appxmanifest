@@ -10,7 +10,7 @@
   <Identity
     Name="88eaa24a-9f13-4e20-a7af-52eddfdb08cc"
     Publisher="CN=hantu"
-    Version="1.0.2.0" />
+    Version="1.0.3.0" />
 
   <mp:PhoneIdentity PhoneProductId="88eaa24a-9f13-4e20-a7af-52eddfdb08cc" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

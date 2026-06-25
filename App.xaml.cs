@@ -25,6 +25,11 @@ namespace DevDeck
         {
             InitializeComponent();
 
+            // Register global exception handlers
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+            UnhandledException += App_UnhandledException;
+
             AppHost = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
@@ -62,6 +67,23 @@ namespace DevDeck
                     services.AddTransient<SettingsPage>();
                 })
                 .Build();
+        }
+
+        private void App_UnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            LoggerHelper.LogToFile("Global_WinUI_UnhandledException", e.Exception);
+            e.Handled = true;
+        }
+
+        private void CurrentDomain_UnhandledException(object? sender, System.UnhandledExceptionEventArgs e)
+        {
+            LoggerHelper.LogToFile("Global_AppDomain_UnhandledException", e.ExceptionObject as Exception);
+        }
+
+        private void TaskScheduler_UnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
+        {
+            LoggerHelper.LogToFile("Global_TaskScheduler_UnobservedTaskException", e.Exception);
+            e.SetObserved();
         }
 
         protected override async void OnLaunched(LaunchActivatedEventArgs args)

@@ -6,5 +6,6 @@ namespace DevDeck.Contracts
         string GetDatabasePath();
         string GetSettingsPath();
         string GetIconsDirectory();
+        string GetLogsDirectory();
     }
 }

@@ -39,6 +39,7 @@ namespace DevDeck.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to load settings. Loading defaults.");
+                LoggerHelper.LogToFile("SettingsService.LoadAsync", ex);
                 _settings = new AppSettings();
             }
         }
@@ -52,15 +53,12 @@ namespace DevDeck.Services
             {
                 string json = JsonSerializer.Serialize(_settings, new JsonSerializerOptions { WriteIndented = true });
                 await File.WriteAllTextAsync(tempPath, json);
-                if (File.Exists(path))
-                {
-                    File.Delete(path);
-                }
-                File.Move(tempPath, path);
+                File.Move(tempPath, path, overwrite: true);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to save settings atomically.");
+                LoggerHelper.LogToFile("SettingsService.SaveAsync", ex);
             }
         }
     }

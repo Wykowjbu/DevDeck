@@ -131,6 +131,7 @@ namespace DevDeck.Services
             catch (Exception ex)
             {
                 stateChangedHandler(RunState.Failed);
+                LoggerHelper.LogToFile($"RunProjectAction_{effective.Name}", ex, projectAction.Project?.FolderPath);
                 await _dialogService.ShowMessageAsync("Lỗi chạy Action", $"Có lỗi xảy ra khi chạy: {ex.Message}", xamlRoot);
             }
             finally

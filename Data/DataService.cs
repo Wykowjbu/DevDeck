@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using DevDeck.Contracts;
 using DevDeck.Models;
+using DevDeck.Services;
 
 namespace DevDeck.Data
 {
@@ -41,6 +42,7 @@ namespace DevDeck.Data
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to load data.json. Initializing empty data.");
+                LoggerHelper.LogToFile("DataService.LoadAsync", ex);
                 _data = new DevDeckData();
             }
         }
@@ -89,15 +91,12 @@ namespace DevDeck.Data
             {
                 string json = JsonSerializer.Serialize(_data, new JsonSerializerOptions { WriteIndented = true });
                 await File.WriteAllTextAsync(tempPath, json);
-                if (File.Exists(path))
-                {
-                    File.Delete(path);
-                }
-                File.Move(tempPath, path);
+                File.Move(tempPath, path, overwrite: true);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to save data.json atomically.");
+                LoggerHelper.LogToFile("DataService.SaveAsync", ex);
             }
         }
     }
